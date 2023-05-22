@@ -1,15 +1,19 @@
 import golosinas.*
 
 object mariano {
-	var golosinas = []
+	var property golosinas = []
 	 
 	method comprar(_golosina) { golosinas.add(_golosina) }
+	
+	method comprarGolosinas(listaDeGolosinas){golosinas.addAll(listaDeGolosinas)}
 	
 	method desechar (_golosina) { golosinas.remove(_golosina) }
 	
 	method golosinas() { return golosinas }
 	method primerGolosina() { return golosinas.first() }
 	method ultimaGolosina() { return golosinas.last() }
+	
+	method baniarGolosina(unaGolosina){golosinas.add(new GolosinaBaniada(golosinaInterior = unaGolosina))}
 	
 	method pesoGolosinas() { 
 		return golosinas.sum({ golo => golo.peso() })

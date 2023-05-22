@@ -11,6 +11,29 @@ object limon { }
 /*
  * Golosinas
  */
+
+
+class CarameloRelleno inherits Caramelo{
+	
+	var estaMordido = false
+	
+	
+	override method precio() = 13
+	
+	override method sabor() = if(estaMordido) chocolate else frutilla
+	
+	override method mordisco(){
+		estaMordido = true
+		peso -= 1
+	}
+}
+class BombonDuro inherits Bombon{	
+	override method mordisco(){
+		peso = peso - 1
+	}
+	method dureza() = if(peso<8) 1 else if(peso>12) 3 else 2
+	
+}
 class Bombon {
 	var peso = 15
 	
@@ -75,6 +98,33 @@ class Oblea {
 	method libreGluten() { return false }
 }
 
+
+
+class ObleCrujiente inherits Oblea{
+	var mordiscos = 0
+	
+	method estaDebil() = mordiscos > 3
+	
+	method pesoExtraPerdido() = if(self.estaDebil()) 0 else 3
+	
+	method pesoPerdido(){
+		if (peso >= 70) {
+			// el peso pasa a ser la mitad
+			peso = peso * 0.5
+		} else { 
+			// pierde el 25% del peso
+			peso = peso - (peso * 0.25)
+		}
+	}
+	
+	override method mordisco(){
+		self.pesoPerdido()
+		mordiscos +=1
+		peso -= self.pesoExtraPerdido()
+		
+	}
+}
+
 class Chocolatin {
 	// hay que acordarse de *dos* cosas, el peso inicial y el peso actual
 	// el precio se calcula a partir del precio inicial
@@ -90,6 +140,19 @@ class Chocolatin {
 	method libreGluten() { return false }
 
 }
+
+class ChocolatinVIP inherits Chocolatin{
+	var property coeficienteHumedad
+	
+	method coeficienteHumedad()
+	override method peso() = ((pesoInicial-comido) * (1+self.coeficienteHumedad()))
+	
+}
+
+class ChocolatinPremium inherits ChocolatinVIP{
+	override method coeficienteHumedad() = coeficienteHumedad/2
+}
+
 
 class GolosinaBaniada {
 	var golosinaInterior
